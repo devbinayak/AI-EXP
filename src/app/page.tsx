@@ -9,7 +9,7 @@ import TeengerLogo from '@/components/icons/TeengerLogo';
 import ChatArea from '@/components/chat/ChatArea';
 import ChatInput from '@/components/chat/ChatInput';
 import ChatControls from '@/components/chat/ChatControls';
-import { User, Bot, Smile, Info } from 'lucide-react';
+import { User, Bot, Smile, Info, Users, Download, Globe } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 
 const BOT_TYPING_DELAY = 1000;
@@ -119,8 +119,6 @@ export default function TeengerPage() {
         moderatedText = moderationResult.moderatedMessage;
         originalTextForDisplay = userInput;
         moderationAnnouncementForDisplay = moderationResult.moderationAnnouncement;
-        // Display moderation announcement as a system message or toast
-        // For now, it will be part of the message bubble.
       }
     } catch (error) {
       console.error("Moderation failed:", error);
@@ -129,7 +127,6 @@ export default function TeengerPage() {
         description: "Could not moderate message. Please try again.",
         variant: "destructive",
       });
-      // Optionally, prevent sending the message or send original
     }
     
     addMessage(moderatedText, 'user', originalTextForDisplay, moderationAnnouncementForDisplay);
@@ -167,12 +164,9 @@ export default function TeengerPage() {
   }, [inputValue, chatMode, chatPartner, addMessage, messages, toast]);
 
   const handleFindNext = useCallback(() => {
-    // For simplicity, always starts a new stranger chat.
-    // Could be randomized or remember last mode.
     handleStartStrangerChat();
   }, [handleStartStrangerChat]);
   
-  // Cleanup timer on unmount
   useEffect(() => {
     return () => {
       if (strangerDisconnectTimer.current) {
@@ -195,8 +189,8 @@ export default function TeengerPage() {
             value={inputValue}
             onChange={setInputValue}
             onSend={handleSendMessage}
-            isLoading={isLoading && messages.length > 0 && messages[messages.length-1].sender === 'user'} // only show send loading if user just sent
-            isDisabled={isLoading && !(messages.length > 0 && messages[messages.length-1].sender === 'user')} // disable if partner is "typing"
+            isLoading={isLoading && messages.length > 0 && messages[messages.length-1].sender === 'user'} 
+            isDisabled={isLoading && !(messages.length > 0 && messages[messages.length-1].sender === 'user')}
           />
         )}
         
@@ -208,6 +202,27 @@ export default function TeengerPage() {
           onFindNext={handleFindNext}
         />
       </main>
+
+      <section className="w-full max-w-lg sm:max-w-xl md:max-w-2xl mt-8 mb-4 px-2 sm:px-0">
+        <h2 className="text-2xl font-semibold text-center mb-6 text-primary">Our Global Reach</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+          <div className="flex flex-col items-center p-4 bg-card/80 backdrop-blur-sm rounded-xl shadow-lg border border-border/50 transition-all hover:shadow-xl hover:scale-105">
+            <Users className="h-10 w-10 sm:h-12 sm:w-12 text-accent mb-2" />
+            <p className="text-xl sm:text-2xl font-bold text-foreground">15,000+</p>
+            <p className="text-xs sm:text-sm text-muted-foreground">Active Users</p>
+          </div>
+          <div className="flex flex-col items-center p-4 bg-card/80 backdrop-blur-sm rounded-xl shadow-lg border border-border/50 transition-all hover:shadow-xl hover:scale-105">
+            <Download className="h-10 w-10 sm:h-12 sm:w-12 text-accent mb-2" />
+            <p className="text-xl sm:text-2xl font-bold text-foreground">50,000+</p>
+            <p className="text-xs sm:text-sm text-muted-foreground">Downloads</p>
+          </div>
+          <div className="flex flex-col items-center p-4 bg-card/80 backdrop-blur-sm rounded-xl shadow-lg border border-border/50 transition-all hover:shadow-xl hover:scale-105">
+            <Globe className="h-10 w-10 sm:h-12 sm:w-12 text-accent mb-2" />
+            <p className="text-xl sm:text-2xl font-bold text-foreground">120+</p>
+            <p className="text-xs sm:text-sm text-muted-foreground">Countries</p>
+          </div>
+        </div>
+      </section>
 
       <footer className="mt-4 sm:mt-8 text-center text-xs sm:text-sm text-muted-foreground">
         <p>&copy; {new Date().getFullYear()} Teenger. Keep it cool, keep it kind.</p>
