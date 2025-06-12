@@ -120,7 +120,7 @@ export default function TeengerPage() {
         moderationAnnouncementForDisplay = moderationResult.moderationAnnouncement;
       }
     } catch (error) {
-      console.error("Moderation call failed:", error);
+      console.error("Moderation call failed (potentially due to service overload or unavailability):", error);
       toast({
         title: "Moderation Service Unavailable",
         description: "Your message could not be checked and was not sent. Please try again later.",
