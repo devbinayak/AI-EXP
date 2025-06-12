@@ -177,7 +177,7 @@ export default function TeengerPage() {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-background text-foreground p-2 sm:p-4 font-body antialiased">
+    <div className="flex flex-col items-center justify-center p-2 sm:p-4 w-full">
       <header className="my-4 sm:my-8 transform transition-transform hover:scale-105 duration-300">
         <TeengerLogo />
       </header>
