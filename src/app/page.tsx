@@ -177,7 +177,7 @@ export default function TeengerPage() {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center p-2 sm:p-4 w-full">
+    <div className="flex flex-col items-center p-2 sm:p-4 w-full flex-grow">
       <header className="my-4 sm:my-8 transform transition-transform hover:scale-105 duration-300">
         <TeengerLogo />
       </header>
@@ -204,7 +204,7 @@ export default function TeengerPage() {
         />
       </main>
 
-      <section className="w-full max-w-lg sm:max-w-xl md:max-w-2xl mt-8 mb-4 px-2 sm:px-0">
+      <section className="w-full max-w-lg sm:max-w-xl md:max-w-2xl mt-12 mb-8 px-2 sm:px-0">
         <h2 className="text-2xl font-semibold text-center mb-6 text-primary">Our Global Reach</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
           <div className="flex flex-col items-center p-4 bg-card/80 backdrop-blur-sm rounded-xl shadow-lg border border-border/50 transition-all hover:shadow-xl hover:scale-105">
@@ -231,7 +231,7 @@ export default function TeengerPage() {
         </div>
       </section>
 
-      <footer className="mt-4 sm:mt-8 text-center text-xs sm:text-sm text-muted-foreground">
+      <footer className="mt-auto pt-8 pb-4 text-center text-xs sm:text-sm text-muted-foreground">
         <p>&copy; {new Date().getFullYear()} Teenger. Keep it cool, keep it kind.</p>
         <p className="text-xs opacity-70">For entertainment purposes only.</p>
       </footer>
