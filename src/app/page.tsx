@@ -23,7 +23,7 @@ export default function TeengerPage() {
   const [chatPartner, setChatPartner] = useState<ChatPartner>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
-  const [isLoading, setIsLoading] = useState(false); // For initial connection or AI response
+  const [isLoading, setIsLoading] = useState(false);
   
   const chatAreaRef = useRef<HTMLDivElement>(null);
   const strangerDisconnectTimer = useRef<NodeJS.Timeout | null>(null);
@@ -71,13 +71,11 @@ export default function TeengerPage() {
     setChatMode('chatting');
     addMessage("Connected with a new friend! Say Hi!", 'system');
     
-    // Simulate stranger's first message
     setTimeout(() => {
         const greetings = ["Hey!", "Hi there!", "What's up?", "Yo!"];
         addMessage(greetings[Math.floor(Math.random() * greetings.length)], 'stranger');
     }, STRANGER_MESSAGE_DELAY);
 
-    // Simulate stranger disconnecting after a while
     strangerDisconnectTimer.current = setTimeout(() => {
       if (chatMode === 'chatting' && chatPartner === 'stranger') {
         addMessage('Oh no! Your friend left the chat.', 'system');
@@ -106,10 +104,10 @@ export default function TeengerPage() {
     if (!inputValue.trim() || chatMode !== 'chatting' || !chatPartner) return;
 
     const userInput = inputValue;
-    setInputValue('');
-    setIsLoading(true); // For AI response or simulated stranger response
+    setInputValue(''); // Clear input field immediately
 
-    // Moderation
+    setIsLoading(true); // Indicate activity for moderation and sending
+
     let moderatedText = userInput;
     let originalTextForDisplay: string | undefined = undefined;
     let moderationAnnouncementForDisplay: string | undefined = undefined;
@@ -118,20 +116,24 @@ export default function TeengerPage() {
       const moderationResult = await aiChatModerator({ userMessage: userInput });
       if (moderationResult.moderationAnnouncement) {
         moderatedText = moderationResult.moderatedMessage;
-        originalTextForDisplay = userInput;
+        originalTextForDisplay = userInput; // Store original if different
         moderationAnnouncementForDisplay = moderationResult.moderationAnnouncement;
       }
     } catch (error) {
-      console.error("Moderation failed:", error);
+      console.error("Moderation call failed:", error);
       toast({
-        title: "Moderation Error",
-        description: "Could not moderate message. Please try again.",
+        title: "Moderation Service Unavailable",
+        description: "Your message could not be checked and was not sent. Please try again later.",
         variant: "destructive",
       });
+      setIsLoading(false); // Re-enable input
+      return; // Stop processing this message
     }
     
+    // If moderation was successful (or not needed), add the message to the UI
     addMessage(moderatedText, 'user', originalTextForDisplay, moderationAnnouncementForDisplay);
 
+    // Proceed with chat partner interaction
     if (chatPartner === 'ai') {
       try {
         const chatHistory = messages
@@ -140,7 +142,7 @@ export default function TeengerPage() {
           .join('\n');
         
         const aiResponse = await aiChatParticipant({ chatHistory, userInput: moderatedText });
-        setTimeout(() => { // Simulate AI typing
+        setTimeout(() => {
           addMessage(aiResponse.aiResponse, 'ai');
           setIsLoading(false);
         }, BOT_TYPING_DELAY);
@@ -155,12 +157,14 @@ export default function TeengerPage() {
         });
       }
     } else if (chatPartner === 'stranger') {
-      // Simulate stranger's reply
       setTimeout(() => {
         const replies = ["lol", "cool", "idk", "interesting...", "tell me more"];
         addMessage(replies[Math.floor(Math.random() * replies.length)], 'stranger');
         setIsLoading(false);
       }, STRANGER_MESSAGE_DELAY + Math.random() * 1000);
+    } else {
+      // Fallback if chatPartner is somehow null but we reached here
+      setIsLoading(false);
     }
   }, [inputValue, chatMode, chatPartner, addMessage, messages, toast]);
 
