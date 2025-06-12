@@ -1,4 +1,4 @@
-import type React from 'react';
+import React from 'react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import MessageBubble from './MessageBubble';
 import type { Message } from '@/lib/types';
