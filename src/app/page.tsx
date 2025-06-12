@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
@@ -207,17 +208,23 @@ export default function TeengerPage() {
         <h2 className="text-2xl font-semibold text-center mb-6 text-primary">Our Global Reach</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
           <div className="flex flex-col items-center p-4 bg-card/80 backdrop-blur-sm rounded-xl shadow-lg border border-border/50 transition-all hover:shadow-xl hover:scale-105">
-            <Users className="h-10 w-10 sm:h-12 sm:w-12 text-accent mb-2" />
+            <div className="p-3 bg-primary/10 rounded-full mb-3 shadow-md">
+              <Users className="h-8 w-8 text-primary" />
+            </div>
             <p className="text-xl sm:text-2xl font-bold text-foreground">15,000+</p>
             <p className="text-xs sm:text-sm text-muted-foreground">Active Users</p>
           </div>
           <div className="flex flex-col items-center p-4 bg-card/80 backdrop-blur-sm rounded-xl shadow-lg border border-border/50 transition-all hover:shadow-xl hover:scale-105">
-            <Download className="h-10 w-10 sm:h-12 sm:w-12 text-accent mb-2" />
+            <div className="p-3 bg-primary/10 rounded-full mb-3 shadow-md">
+              <Download className="h-8 w-8 text-primary" />
+            </div>
             <p className="text-xl sm:text-2xl font-bold text-foreground">50,000+</p>
             <p className="text-xs sm:text-sm text-muted-foreground">Downloads</p>
           </div>
           <div className="flex flex-col items-center p-4 bg-card/80 backdrop-blur-sm rounded-xl shadow-lg border border-border/50 transition-all hover:shadow-xl hover:scale-105">
-            <Globe className="h-10 w-10 sm:h-12 sm:w-12 text-accent mb-2" />
+            <div className="p-3 bg-primary/10 rounded-full mb-3 shadow-md">
+              <Globe className="h-8 w-8 text-primary" />
+            </div>
             <p className="text-xl sm:text-2xl font-bold text-foreground">120+</p>
             <p className="text-xs sm:text-sm text-muted-foreground">Countries</p>
           </div>
